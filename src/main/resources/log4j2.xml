@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern=".%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%file:%line]
+                %-5level %logger{36} - %msg %n"/>
+        </Console>
+
+        <RollingFile immediateFlush="false"  name="ErrorFile" fileName="/data/logs/tomcatlogs/error.log"
+                     filePattern="/data/logs/tomcatlogs/$${date:yyyy-MM}/error-%d{MM-dd-yyyy}-%i.log">
+            <Filters>
+                <ThresholdFilter level="INFO" />
+            </Filters>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%file:%line] %-5level %logger{35} - %msg %n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="102400KB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile immediateFlush="false"  name="BusinessFile" fileName="/data/logs/tomcatlogs/bussiness.log"
+                     filePattern="/data/logs/tomcatlogs/$${date:yyyy-MM}/bussiness-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%file:%line] %-5level %logger{35} - %msg %n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="102400KB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile immediateFlush="false"  name="BusinessErrorFile" fileName="/data/logs/tomcatlogs/bussinesserror.log"
+                     filePattern="/data/logs/tomcatlogs/$${date:yyyy-MM}/bussinesserror-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%file:%line] %-5level %logger{35} - %msg %n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="102400KB"/>
+            </Policies>
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+
+        <AsyncLogger name="BusinessFile" level="info" additivity="false" includeLocation="true">
+            <appender-ref ref="BusinessFile"/>
+        </AsyncLogger>
+
+        <AsyncLogger name="BusinessErrorFile" level="info" additivity="false" includeLocation="true">
+            <appender-ref ref="BusinessErrorFile"/>
+        </AsyncLogger>
+
+        <!--
+        <Root level="info">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+        -->
+        <AsyncRoot level="info" includeLocation="true">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="ErrorFile" />
+        </AsyncRoot>
+
+    </Loggers>
+</Configuration>
